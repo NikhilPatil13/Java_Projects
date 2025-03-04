@@ -1,0 +1,38 @@
+package com.quiztaker.main.repo;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+import com.quiztaker.main.entity.Subject;
+import com.quiztaker.main.helper.CreateConnection;
+
+// table name = tbl_subject
+public class SubjectRepository {
+	// getting connection by calling getConnection method of CreateConnection class
+	Connection conn = CreateConnection.getConnection();
+	
+	
+	// method to add new subject and returns added subject
+	public Subject save(Subject subjectToAdd){
+		// taking subject to return 
+		Subject savedSubject = new Subject();
+		
+		try {
+			// string sql query
+			String query = "INSERT INTO tbl_subject VALUES(?)";
+			
+			// preparing query
+			PreparedStatement ps = conn.prepareStatement(query);
+		
+			// setting parameters in ps
+			ps.setString(1, subjectToAdd.getSubName());
+			
+			// executing ps
+			int isSaved = ps.executeUpdate();
+			
+		}catch(Exception e) {
+			System.err.println("(Subject) save : "+e.getMessage());
+		}
+	}
+	
+}

@@ -1,0 +1,6 @@
+package com.quiztaker.main.repo;
+
+// table name = tbl_subject
+public class SubjectRepository {
+
+}

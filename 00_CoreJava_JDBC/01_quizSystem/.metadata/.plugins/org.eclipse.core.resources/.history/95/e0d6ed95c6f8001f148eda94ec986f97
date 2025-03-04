@@ -1,0 +1,6 @@
+// enum for setting level of questions and quiz
+package com.quiztaker.main.enums;
+
+public enum Category {
+	EASY,MEDIUM,HARD,MIXED;
+}

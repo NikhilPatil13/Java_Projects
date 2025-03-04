@@ -1,0 +1,16 @@
+package com.quiztaker.main.controller;
+
+import com.quiztaker.main.serviceImpl.SubjectServiceImpl;
+
+public class SubjectController {
+	// object for SubjectServiceImpl
+	private SubjectServiceImpl subjectServiceImpl = new SubjectServiceImpl();
+	
+	
+	// addSubject request
+	public String addSubject(String subNameToAdd){
+		// calling addSubject method of SubjectServiceImpl
+		
+		
+	}
+}

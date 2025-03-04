@@ -1,0 +1,40 @@
+package com.quiztaker.main.controller;
+
+import com.quiztaker.main.entity.User;
+import com.quiztaker.main.serviceImpl.UserServiceImpl;
+
+public class UserController {
+	// object for UserServiceImpl
+	private	UserServiceImpl userServiceImpl = new UserServiceImpl();
+	
+	// signUpUser request
+	public Boolean signUpUser(User userToAdd){
+		// calling signUpUser method of UserServiceImpl
+		User signedUpUser = this.userServiceImpl.signUpUser(userToAdd);
+	
+		// checking and returning
+		if(signedUpUser==null) {
+			return false;
+		}
+		else{
+			return true;
+		}
+	}
+
+	// authUser request
+	public Boolean authUser(String userUsername, String userPassword) {
+		// calling authUser method of UserServiceImpl
+		Boolean isUserAuthenticated = this.userServiceImpl.authUser(userUsername, userPassword);
+		
+		// returning
+		return isUserAuthenticated;
+		
+	}
+
+	//getUserByUsername request
+	public void getUserByUsername(String userUsername) {
+		// calling getUserByUsername method of UserServiceImpl
+		this.userServiceImpl.getUserByUsername(userUsername);
+		
+	}
+}

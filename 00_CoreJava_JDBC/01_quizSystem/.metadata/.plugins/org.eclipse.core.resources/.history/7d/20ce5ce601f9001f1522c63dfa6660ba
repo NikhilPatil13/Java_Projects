@@ -1,0 +1,14 @@
+package com.quiztaker.main.controller;
+
+import com.quiztaker.main.serviceImpl.OptionServiceImpl;
+
+public class OptionController {
+	// object for OptionServiceImpl
+	private OptionServiceImpl optionServiceImpl = new OptionServiceImpl();
+
+	// findAllOptions request
+	public void findAllOptions() {
+		// call to findAllOptions method of OptionServiceImpl
+		this.optionServiceImpl.findAllOptions();
+	}
+}

@@ -1,0 +1,55 @@
+package com.quiztaker.main.serviceImpl;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+
+import com.quiztaker.main.entity.Subject;
+import com.quiztaker.main.exception.EntityNotFoundException;
+import com.quiztaker.main.exception.EntityNotSavedException;
+import com.quiztaker.main.repo.SubjectRepository;
+import com.quiztaker.main.serviceI.SubjectServiceI;
+
+public class SubjectServiceImpl implements SubjectServiceI {
+	// object for SubjectRepository
+	private SubjectRepository subjectRepository = new SubjectRepository();
+	
+	// blogic for addSubject
+	@Override
+	public Subject addSubject(Subject subjectToAdd) {
+		// calling save method ot SubjectRepository
+		Subject savedSubject = this.subjectRepository.save(subjectToAdd);
+		
+		if(savedSubject==null) {
+			// subject not saved
+			throw new EntityNotSavedException("Subject Not Saved.");
+		}
+		
+		// return saved subject
+		return savedSubject;
+	}
+
+	// blogic for getSubjectsWithKeys
+	@Override
+	public LinkedHashMap<Integer, Subject> getSubjectsWithKeys() {
+		// calling findAll method of SubjectRepository
+		List<Subject> subjectList = this.subjectRepository.findAll();
+		
+		// checking size of subjectList
+		if(subjectList.size()==0) {
+			// no subject found
+			throw new EntityNotFoundException("Subjects Not Found.");
+		}
+		else {
+			// taking LinkedHashMap
+			LinkedHashMap<Integer, Subject> subjectWithKeys = new LinkedHashMap<>();
+			
+			
+			
+			
+		}
+		
+		
+		return null;
+	}
+
+}

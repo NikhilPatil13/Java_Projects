@@ -1,0 +1,7 @@
+package com.quiztaker.main.entity;
+
+public class Subject {
+	// data members
+	private Integer subId;
+	private String subName;
+}

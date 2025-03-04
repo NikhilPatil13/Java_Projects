@@ -1,0 +1,8 @@
+package com.quiztaker.main.serviceI;
+
+import com.quiztaker.main.entity.Subject;
+
+public interface SubjectServiceI {
+	// abstract method to add subject and returns added subject
+	public Subject addSubject(Subject subToAdd);
+}

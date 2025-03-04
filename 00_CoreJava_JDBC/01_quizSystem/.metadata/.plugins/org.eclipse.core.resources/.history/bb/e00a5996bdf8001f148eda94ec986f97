@@ -1,0 +1,78 @@
+// question entity class
+package com.quiztaker.main.entity;
+
+import com.quiztaker.main.enums.Category;
+
+public class Question {
+	// data members
+	private Integer queId;
+	private String queStatement;
+	private Integer quePoints;
+	
+	// one question have one subject
+	private Subject queSubject;
+
+	
+	// default constructor
+	public Question() {
+	}
+
+
+	// parameterized constructor
+	public Question(Integer queId, String queStatement, Integer quePoints, Subject queCategory) {
+		this.queId = queId;
+		this.queStatement = queStatement;
+		this.quePoints = quePoints;
+		this.queCategory = queCategory;
+	}
+
+
+	// setter getter methods
+	public Integer getQueId() {
+		return queId;
+	}
+
+
+	public void setQueId(Integer queId) {
+		this.queId = queId;
+	}
+
+
+	public String getQueStatement() {
+		return queStatement;
+	}
+
+
+	public void setQueStatement(String queStatement) {
+		this.queStatement = queStatement;
+	}
+
+
+	public Integer getQuePoints() {
+		return quePoints;
+	}
+
+
+	public void setQuePoints(Integer quePoints) {
+		this.quePoints = quePoints;
+	}
+
+
+	public Category getQueCategory() {
+		return queCategory;
+	}
+
+
+	public void setQueCategory(Category queCategory) {
+		this.queCategory = queCategory;
+	}
+
+	
+	// toString method
+	@Override
+	public String toString() {
+		return "Question [queId=" + queId + ", queStatement=" + queStatement + ", quePoints=" + quePoints
+				+ ", queCategory=" + queCategory + "]";
+	}
+
+}

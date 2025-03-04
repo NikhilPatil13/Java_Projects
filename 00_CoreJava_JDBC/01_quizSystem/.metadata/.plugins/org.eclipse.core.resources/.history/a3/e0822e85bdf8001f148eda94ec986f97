@@ -1,0 +1,59 @@
+package com.quiztaker.main.entity;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Subject {
+	// data members
+	private Integer subId;
+	private String subName;
+	
+	// one subject have multiple questions
+	private List<Question> subQuestionsList = new ArrayList<>();
+	
+	// default constructor	
+	public Subject() {
+	}
+
+	
+	// parameterized constructor
+	public Subject(Integer subId, String subName , List<Question> subQuestionsList) {
+		this.subId = subId;
+		this.subName = subName;
+		this.subQuestionsList = subQuestionsList;
+	}
+
+
+	// setter getter
+	public Integer getSubId() {
+		return subId;
+	}
+
+
+	public void setSubId(Integer subId) {
+		this.subId = subId;
+	}
+
+
+	public String getSubName() {
+		return subName;
+	}
+
+
+	public void setSubName(String subName) {
+		this.subName = subName;
+	}
+
+
+	public List<Question> getSubQuestionsList() {
+		return subQuestionsList;
+	}
+
+
+	public void setSubQuestionsList(List<Question> subQuestionsList) {
+		this.subQuestionsList = subQuestionsList;
+	}
+	
+	
+		
+}

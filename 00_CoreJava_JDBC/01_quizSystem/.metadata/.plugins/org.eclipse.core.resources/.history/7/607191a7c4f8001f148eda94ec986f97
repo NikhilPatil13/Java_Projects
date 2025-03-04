@@ -1,0 +1,20 @@
+package com.quiztaker.main.serviceImpl;
+
+import com.quiztaker.main.entity.Subject;
+import com.quiztaker.main.repo.SubjectRepository;
+import com.quiztaker.main.serviceI.SubjectServiceI;
+
+public class SubjectServiceImpl implements SubjectServiceI {
+	// object for SubjectRepository
+	private SubjectRepository subjectRepository = new SubjectRepository();
+	
+	// blogic for addSubject
+	@Override
+	public Subject addSubject(Subject subjectToAdd) {
+		// calling 
+		
+		
+		return null;
+	}
+
+}

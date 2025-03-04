@@ -1,0 +1,13 @@
+package com.quiztaker.main.repo;
+
+import com.quiztaker.main.entity.Subject;
+
+// table name = tbl_subject
+public class SubjectRepository {
+
+	// method to add new subject and returns added subject
+	public Subject save(Subject subjectToAdd){
+		
+	}
+	
+}

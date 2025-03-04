@@ -1,0 +1,30 @@
+Project Name : Quiztaker
+Description : An application which allows user to give quiz containing questions.
+
+---------------------------------------------------------------------------------------
+
+16-02-2025
+==========
+1.project structure created.
+2.tables created in database with mapping.
+3.required entity classes are created.
+
+
+21-02-2025
+==========
+1.createConnection method is created for getting connection
+2.crud operation need to be done of questions and their options
+
+
+22-02-2025 
+==========
+1.exception handling for questions and options -- done
+2.show all questions with points ,  options and correct option
+	SrNo.]Questionstatement(Points)
+		op1
+		op2
+		op3
+		op4
+	CorrectOption : op
+	--------------------------------
+	again another question in above format

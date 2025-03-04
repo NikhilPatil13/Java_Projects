@@ -1,0 +1,5 @@
+package com.quiztaker.main.serviceImpl;
+
+public class SubjectServiceImpl {
+
+}

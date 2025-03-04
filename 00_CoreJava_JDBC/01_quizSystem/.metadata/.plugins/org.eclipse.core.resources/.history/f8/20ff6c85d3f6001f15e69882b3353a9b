@@ -1,0 +1,170 @@
+package com.quiztaker.main.repo;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.quiztaker.main.entity.Question;
+import com.quiztaker.main.enums.Category;
+import com.quiztaker.main.helper.CreateConnection;
+
+// table name = tbl_question
+public class QuestionRepository {
+	// get connection 
+	Connection conn = CreateConnection.getConnection();
+
+	// method to find a question by provided question statement
+	public Question findByQuestionStatement(String questionStatement){
+		// creating Question object which returns found question
+		Question foundQuestion = new Question();
+		
+		try {
+			// string query to find a question having provided questionStatement
+			String query = "SELECT * FROM tbl_question WHERE questatement=?";
+			
+			// prepare query
+			PreparedStatement ps = conn.prepareStatement(query);
+			
+			// setting parameters in ps
+			ps.setString(1, questionStatement);
+
+			// execute statement
+			ResultSet rs = ps.executeQuery();
+		
+			// calculate size of rs
+			int size=0;
+			if(rs.next()) {
+				size++;
+			}
+			
+			// now if size==1 then and only then set foundQuestion values
+			if(size==1) {
+				// setting values of question in rs to foundQuestion
+				foundQuestion.setQueId(rs.getInt("queid"));
+				foundQuestion.setQueStatement(rs.getString("questatement"));
+				foundQuestion.setQuePoints(rs.getInt("quepoints"));
+					
+// check once-----				
+				String quecategory = rs.getString("quecategory");
+				foundQuestion.setQueCategory(Category.valueOf(quecategory));
+			}
+			else {
+				foundQuestion=null;
+			}
+
+			
+			
+		}catch(Exception e) {
+			System.err.println("findByQuestionStatement : "+e.getMessage());
+		}
+		
+		// returning foundQuetion
+		return foundQuestion;
+		
+	}
+	
+	// method to save Question and returns saved question
+	public Question save(Question question){
+		// creating object for Question to return savedQuestion
+		Question savedQuestion = new Question();
+		
+		try {
+			// string query to save question
+			String query = "INSERT INTO tbl_question(questatement,quepoints,quecategory) VALUES(?,?,?)";
+			
+			// prepare query
+			PreparedStatement ps = conn.prepareStatement(query);
+			
+			// setting parameters in query
+			ps.setString(1,question.getQueStatement());
+			ps.setInt(2, question.getQuePoints());
+			ps.setString(3, question.getQueCategory().name());// getting name of particular constant
+			
+			// execute ps
+			int isQuestionAdded = ps.executeUpdate();
+			
+			// checking is Question added/saved or not
+			if(isQuestionAdded==1) {
+				savedQuestion = question;	
+			}
+			
+			
+		}catch(Exception e) {
+			System.err.println("(Question)save : "+e.getMessage());
+		}
+		
+		// returns savedQuestion
+		return savedQuestion;
+	}
+	
+	// method to find question by provided question id
+	public Question findById(Integer queId){
+		// taking object for Question
+		Question foundQuestion = new Question();
+		
+		try {
+			
+			// string sql query
+			String query = "SELECT * FROM tbl_question WHERE queid=?";
+			
+			// preparing query
+			PreparedStatement ps = conn.prepareStatement(query);
+		
+			// setting parameters in ps
+			ps.setInt(1, queId);
+			
+			// executing ps
+			ResultSet rs = ps.executeQuery();
+		
+			// traversing rs
+			while(rs.next()) {
+				foundQuestion.setQueId(rs.getInt("queid"));
+				foundQuestion.setQueStatement(rs.getString("questatement"));
+				foundQuestion.setQuePoints(rs.getInt("quepoints"));
+				
+				// for setting Category enum
+				String category = rs.getString("quecategory");
+				foundQuestion.setQueCategory(Category.valueOf(category));
+			}
+			
+		}catch(Exception e) {
+			System.err.println("(Question)findById : "+e.getMessage());
+		}
+		
+		// returning foundQuestion
+		return foundQuestion;
+	}
+
+	// method to find min and max question id and returns min and max question id in map
+	public Map<Integer,Integer> findMinMaxQueId() {
+		// map to return key as min queid and value as max queid
+		Map<Integer,Integer> minMaxQueId = new HashMap<>();
+		
+		try {
+			// string sql query
+			String query = "SELECT MIN(queid),MAX(queId) FROM tbl_question";
+			
+			// preparing query
+			PreparedStatement ps = conn.prepareStatement(query);
+			
+			// execute ps
+			ResultSet rs = ps.executeQuery();
+		
+			// traversing rs
+			while(rs.next()) {
+				// setting current rs value in minQueId
+				minMaxQueId.put(rs.getInt(1), rs.getInt(2));
+			}
+			
+		}catch(Exception e) {
+			System.err.println(" (Qusetion)findMinMaxQueId : "+e.getMessage());
+		}
+		
+		// return minMaxQueId
+		return minMaxQueId;
+	}
+	
+}

@@ -1,0 +1,5 @@
+package com.quiztaker.main.repo;
+
+public class QuizRepository {
+
+}

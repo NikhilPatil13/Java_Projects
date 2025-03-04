@@ -1,0 +1,165 @@
+package com.quiztaker.main.serviceImpl;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Random;
+import java.util.Scanner;
+import java.util.Set;
+
+import com.quiztaker.main.entity.Option;
+import com.quiztaker.main.entity.Question;
+import com.quiztaker.main.entity.Quiz;
+import com.quiztaker.main.entity.User;
+import com.quiztaker.main.enums.Category;
+import com.quiztaker.main.exception.EntityNotFoundException;
+import com.quiztaker.main.exception.EntityNotSavedException;
+import com.quiztaker.main.repo.OptionRepository;
+import com.quiztaker.main.repo.QuestionRepository;
+import com.quiztaker.main.repo.QuizRepository;
+import com.quiztaker.main.serviceI.QuizServiceI;
+
+public class QuizServiceImpl implements QuizServiceI {
+	// object for QuestionRepository
+	private QuestionRepository questionRepository = new QuestionRepository();
+	
+	// object for OptionRepository
+	private OptionRepository optionRepository = new OptionRepository();
+	
+	// object for QuizRepository
+	private QuizRepository quizRepository = new QuizRepository(); 
+	
+	// object for Scanner
+	Scanner sc = new Scanner(System.in);
+	
+	
+	// blogic for takeQuiz
+	@Override
+	public void takeQuiz(User user) {
+		// getting smallest and largest questionId from question table
+		// calling findMinMaxQueId method of QuestionRepository
+		Map<Integer,Integer> minMaxQueId = this.questionRepository.findMinMaxQueId();
+		
+		// taking minQueId and maxQueId variables
+		Integer minQueId=0;
+		Integer maxQueId=0;
+		
+		// traversing minMaxQueId
+		for(Entry<Integer, Integer> entry : minMaxQueId.entrySet()) {
+			// checking minMaxQueId key value.. if value is zero then no questions added/present 
+			if(entry.getKey()==0) {
+				// no questions found, send exception
+				throw new EntityNotFoundException("Questions Not Found.");
+			}
+			else {
+				// setting minQueId and maxQueId values
+				minQueId = entry.getKey();
+				maxQueId = entry.getValue();
+			}
+		}		
+		
+		// creating a Map to store Question as key and its map of options as value
+		Map<Question, Map<Character,Option>> queOptionMap = new HashMap<>();
+		
+		
+		// set for avoiding duplicate questions in queOptionMap
+		Set<Integer> randomNumberSet = new LinkedHashSet<>();
+		
+		// loop from 1 to 10 --> because we want 10 questions in quiz
+		while(randomNumberSet.size()<10) {
+			// taking a random number between 1 to maxQuestionId
+			Random random = new Random();
+			Integer randomNumber = random.nextInt(minQueId, maxQueId+1);// because 2nd parameter is exclusive
+			
+			if(!randomNumberSet.contains(randomNumber)) {
+				// add randomNumber in randomNumberSet
+				randomNumberSet.add(randomNumber);
+			
+				// now getting question having questionId == randomNumber
+				Question foundQuestion = this.questionRepository.findById(randomNumber);
+			
+			
+				// check foundQuestion is null or not
+				if(foundQuestion.getQueStatement()==null) {
+					// remove random number from randomNumberSet 
+					randomNumberSet.remove(randomNumber);
+				}
+				else {
+					// question found
+					// getting all options of that question
+					// calling findOptionsByQueId method of OptionRepository
+					Map<Character,Option> optionsMap = this.optionRepository.findOptionsByQueId(foundQuestion.getQueId());
+				
+					
+					// now setting foundQuestion and optionsMap in queOptionMap
+					queOptionMap.put(foundQuestion, optionsMap);
+				}
+			}	
+		}
+		
+		
+		// now we have queOptionMap containing 10 questions with their options map
+		Integer obtainedScore = 0;
+		Integer outOfScore = 0;
+		
+		// traversing queOptionMap
+		int queSrNo = 1;
+		for(Entry<Question, Map<Character,Option>> queOptions : queOptionMap.entrySet()) {
+			// printing question
+			System.out.println(queSrNo+++"] "+queOptions.getKey().getQueStatement()+" ( Points : "+queOptions.getKey().getQuePoints()+" )");
+			
+			// printing options
+			System.out.println("Options : ");
+			
+			// getting options map 
+			Map<Character, Option> optionsMap = queOptions.getValue();
+			
+			// traversing optionsMap
+			for(Entry<Character, Option> optionMap : optionsMap.entrySet()) {
+				System.out.println(optionMap.getKey()+". "+optionMap.getValue().getOptStatement());
+			}
+		
+			// ask user for input to choose option
+			System.out.print("Enter Option : ");
+			Character selectedOption = sc.next().trim().charAt(0);
+		
+			// check selectedOption is correct or not
+			if(optionsMap.get(selectedOption).getIsOptCorrect()) {
+				System.out.println("Correct.");
+
+				// if correct then add in obtainedScore, add question point in obtained score
+				obtainedScore+=queOptions.getKey().getQuePoints();
+			}
+			else {
+				System.out.println("Incorrect.");
+			}
+			
+			// add current question point in outOfScore
+			outOfScore+=queOptions.getKey().getQuePoints();
+			
+			System.out.println("---------------------------------------------------\n");
+			
+		}
+		
+		
+		System.out.println("Obtained Score : "+obtainedScore+"/"+outOfScore);
+		// now save in quiz table, need quiz object and set values in quizToSave
+		Quiz quizToSave = new Quiz();
+		quizToSave.setQuizUserId(user.getUserId());
+		quizToSave.setQuizObtPoints(obtainedScore);
+		quizToSave.setQuizTotalPoints(outOfScore);
+		
+		Quiz savedQuiz = this.quizRepository.save(quizToSave);
+		
+		// checking savedQuiz value. if null then throw exception
+		if(savedQuiz == null) {
+			throw new EntityNotSavedException("Quiz Not Saved.");
+		}
+				
+	}
+
+}

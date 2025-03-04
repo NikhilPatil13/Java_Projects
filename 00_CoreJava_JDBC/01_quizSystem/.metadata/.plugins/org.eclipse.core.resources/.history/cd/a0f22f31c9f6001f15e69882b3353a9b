@@ -1,0 +1,24 @@
+package com.quiztaker.main.controller;
+
+import com.quiztaker.main.entity.User;
+import com.quiztaker.main.serviceImpl.QuizServiceImpl;
+
+public class QuizController {
+
+	// object for QuizServiceImpl
+	private QuizServiceImpl quizServiceImpl = new QuizServiceImpl();
+	
+	// takeQuiz request
+	public void takeQuiz(User loggedInUser) {
+
+		try {
+			// calling takeQuiz method of QuizServiceImpl
+			Integer maxQustionId = this.quizServiceImpl.maxQustionId();
+		}catch() {
+			
+		}
+		
+		
+	}
+
+}

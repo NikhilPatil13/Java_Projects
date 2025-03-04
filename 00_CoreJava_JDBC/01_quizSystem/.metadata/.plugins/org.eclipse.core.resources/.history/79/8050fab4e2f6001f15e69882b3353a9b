@@ -1,0 +1,44 @@
+package com.quiztaker.main.repo;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+import com.quiztaker.main.entity.Quiz;
+import com.quiztaker.main.helper.CreateConnection;
+
+
+//table name = tbl_quiz
+public class QuizRepository {
+	// getting connection 
+	private Connection conn = CreateConnection.getConnection();
+
+	// method to save the quiz and return saved quiz
+	public void save(Quiz quizToSave) {
+		// object of Quiz to return
+		Quiz savedQuiz = new Quiz();
+		
+		// taking isAdded variable to check quizToSave is saved or not
+		int isAdded=0;
+		
+		try {
+			// string sql query
+			String query = "INSERT INTO tbl_quiz(quizuserid,quizobtpoints,quiztotalpoints)VALUES(?,?,?)";
+			
+			// preparing query
+			PreparedStatement ps = conn.prepareStatement(query);
+		
+			// seting parameters in ps
+			ps.setInt(1, quizToSave.getQuizUserId());
+			ps.setInt(2, quizToSave.getQuizObtPoints());
+			ps.setInt(3, quizToSave.getQuizObtPoints());
+			
+			// execute ps
+			isAdded = ps.executeUpdate();
+		}catch(Exception e) {
+			System.err.println(" (Quiz)save : "+e.getMessage());
+		}
+		
+		
+	}
+
+}

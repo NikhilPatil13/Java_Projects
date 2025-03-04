@@ -1,0 +1,8 @@
+package com.quiztaker.main.serviceI;
+
+import com.quiztaker.main.entity.User;
+
+public interface QuizServiceI {
+	// abstract method to take quiz by provided user
+	public void takeQuiz(User user);
+}

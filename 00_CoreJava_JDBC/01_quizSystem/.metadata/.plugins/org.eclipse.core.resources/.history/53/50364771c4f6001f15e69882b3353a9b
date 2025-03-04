@@ -1,0 +1,5 @@
+package com.quiztaker.main.serviceI;
+
+public interface QuizServiceI {
+
+}

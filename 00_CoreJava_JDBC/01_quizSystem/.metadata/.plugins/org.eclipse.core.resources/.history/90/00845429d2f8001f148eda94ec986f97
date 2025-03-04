@@ -1,0 +1,35 @@
+package com.quiztaker.main.serviceImpl;
+
+import java.util.LinkedHashMap;
+
+import com.quiztaker.main.entity.Subject;
+import com.quiztaker.main.exception.EntityNotSavedException;
+import com.quiztaker.main.repo.SubjectRepository;
+import com.quiztaker.main.serviceI.SubjectServiceI;
+
+public class SubjectServiceImpl implements SubjectServiceI {
+	// object for SubjectRepository
+	private SubjectRepository subjectRepository = new SubjectRepository();
+	
+	// blogic for addSubject
+	@Override
+	public Subject addSubject(Subject subjectToAdd) {
+		// calling save method ot SubjectRepository
+		Subject savedSubject = this.subjectRepository.save(subjectToAdd);
+		
+		if(savedSubject==null) {
+			// subject not saved
+			throw new EntityNotSavedException("Subject Not Saved.");
+		}
+		
+		// return saved subject
+		return savedSubject;
+	}
+
+	@Override
+	public LinkedHashMap<Integer, Subject> getSubjectsWithKeys() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

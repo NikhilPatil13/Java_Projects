@@ -1,0 +1,55 @@
+package com.quiztaker.main.controller;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+
+import com.quiztaker.main.entity.Option;
+import com.quiztaker.main.entity.Question;
+import com.quiztaker.main.exception.EntityAlredyPresentException;
+import com.quiztaker.main.exception.EntityNotSavedException;
+import com.quiztaker.main.serviceImpl.QuestionServiceImpl;
+
+public class QuestionController {
+	
+	// object for QuestionServiceImpl
+	QuestionServiceImpl questionServiceImpl = new QuestionServiceImpl();
+	
+	// addQuestionWithOptions request and returns a message
+	public String addQuestionWithOptions(Question question , List<Option> listOfOptions){
+				
+		try {
+			// call to addQuestionWithOptions method of QuestionServiceImpl
+			Question savedQuestion = this.questionServiceImpl.addQuestionWithOptions(question, listOfOptions);
+
+
+		}catch(EntityAlredyPresentException e) {
+			System.err.println("\nEntityAlredyPresentException : "+e.getMessage());
+		}catch(EntityNotSavedException e) {
+			System.err.println("\nEntityNotSavedException : "+e.getMessage());
+		}catch(Exception e) {
+			System.err.println("\nException : "+e.getMessage());
+		}
+		
+		
+		//System.out.println("Saved Question : "+savedQuestion);
+		
+		// checking and returning
+		if(savedQuestion==null) {
+			return "Question Not Saved.";
+		}
+		else {
+			return "Question Saved.";
+		}
+	}
+	
+	// getAllQuestionsWithOptions request and returns -----
+	public LinkedHashMap<Question,List<Option>> getAllQuestionsWithOptions(){
+		// call to getAllQuestionsWithOptions method QuestionServiceImpl
+		LinkedHashMap<Question,List<Option>> allQuestionsWithOptions = this.questionServiceImpl.getAllQuestionsWithOptions();
+		
+		// checking and returning
+		return allQuestionsWithOptions;
+		
+	}
+	
+}

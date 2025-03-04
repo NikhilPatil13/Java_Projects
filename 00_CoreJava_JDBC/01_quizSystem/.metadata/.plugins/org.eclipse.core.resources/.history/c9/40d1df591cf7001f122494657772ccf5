@@ -1,0 +1,127 @@
+package com.quiztaker.main.serviceImpl;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map.Entry;
+
+import com.quiztaker.main.entity.Option;
+import com.quiztaker.main.entity.Question;
+import com.quiztaker.main.exception.EntityAlredyPresentException;
+import com.quiztaker.main.exception.EntityNotFoundException;
+import com.quiztaker.main.exception.EntityNotSavedException;
+import com.quiztaker.main.repo.QuestionRepository;
+import com.quiztaker.main.serviceI.QuestionServiceI;
+
+public class QuestionServiceImpl implements QuestionServiceI{
+	// object for QuestionRepository
+	QuestionRepository questionRepository = new QuestionRepository();
+		
+	// object for OptionServiceImpl
+	OptionServiceImpl optionServiceImpl = new OptionServiceImpl();
+	
+	// blogic for addQuestionWithOptions 
+	@Override
+	public Question addQuestionWithOptions(Question question, List<Option> listOfOptions) {
+		// NOTE : save options only when question saved
+		
+		// before saving question check this question is already present or not
+		// call to findByQuestionStatement method of questionRepository
+		Question foundQuestion = this.questionRepository.findByQuestionStatement(question.getQueStatement());
+		
+		//System.out.println("FoundQuestion : "+foundQuestion);// checked-- null yetoy
+		
+		// if foundQuestion != null then don' add question 
+		if(foundQuestion != null) {
+			// throw error 
+			throw new EntityAlredyPresentException("Question With Provided Question Statement Is Already Present.");
+		}
+		else {
+			// not present then add question 
+			// calling save method of QuestionRepository
+			Question savedQuestion = this.questionRepository.save(question);
+			
+			
+			// checking and doing further operation
+			if(savedQuestion == null) {
+				// if question not get saved. Throw EntityNotSavedException
+				throw new EntityNotSavedException("Question Not Get Stored.");
+			}
+			else {
+				// question saved 
+				// now save the options 
+				// for getting questionId , need to fetch data of savedQuestion
+				// ith aplyala findByQuestionStatement use krun question cha object milel tyat id rahil ti apn ith pass kru shkto
+				// call to findByQuestionStatement to get question id of saved question
+				Question questionToSaveOptions = this.questionRepository.findByQuestionStatement(savedQuestion.getQueStatement());
+				
+				// call to addOptionsForQuestion method of OptionServiceImpl
+				this.optionServiceImpl.addOptionsForQuestion(listOfOptions,questionToSaveOptions); // we will get queId from questionToSaveOptions object
+				
+				// returning saved question
+				return savedQuestion;
+			}
+		}
+	}
+
+	// blogic for getAllQuestionsWithOptions
+	@Override
+	public LinkedHashMap<Question, List<Option>> getAllQuestionsWithOptions() {
+		// LinkedHashMap to store Question as key and it's respective options as value
+		LinkedHashMap<Question, List<Option>> questionOptionsFinalMap = new LinkedHashMap<>();
+		
+		// getting all options list by calling findAllOptions method of OptionServiceImpl
+		try {
+			List<Option> allOptions = this.optionServiceImpl.findAllOptions();
+			//System.out.println("==========="+allOptions);
+		
+			// taking a LinkedHashMap to store question id as key and list of options for particular question id as value
+			LinkedHashMap<Integer, List<Option>> queIdOptionsMap = new LinkedHashMap<>();
+			
+			// traversing allOptions list
+			for(Option option:allOptions) {
+				// check current option's queId is present in queIdOptionsMap or not
+				// if not then add
+				if(!queIdOptionsMap.containsKey(option.getOptQueId())) {
+					// put in map and blank list as value
+					ArrayList<Option> listOfOptions = new ArrayList<>();
+					listOfOptions.add(option);
+					queIdOptionsMap.put(option.getOptQueId(), listOfOptions);
+				}
+				else {
+					// option's queId present in queIdOptionsMap already then get value for that
+					List<Option> listOfOptions = queIdOptionsMap.get(option.getOptQueId());
+					
+					// add current option in listOfOption and put back in queIdOptionsMap
+					listOfOptions.add(option);
+					queIdOptionsMap.put(option.getOptQueId(), listOfOptions);
+				}
+			}
+
+			//System.out.println("======queIdOptionsMap : "+queIdOptionsMap);// checked
+			
+			// traverse queIdOptionsMap
+			for(Entry<Integer, List<Option>> entry : queIdOptionsMap.entrySet()) {
+				// now ji key yeil entry madhe tyavrun purn question cha object kadhaycha ahe
+				// calling findById method of QuestionRepository
+				Question foundQuestion = this.questionRepository.findById(entry.getKey());
+			
+				// set this foundQuestion in questionOptionsFinalMap as key
+				questionOptionsFinalMap.put(foundQuestion, entry.getValue());
+			}
+			
+			//System.out.println("=====questionOptionsFinalMap : "+questionOptionsFinalMap);// checked
+			
+			
+		}catch(EntityNotFoundException e) {
+			System.err.println("\nEntityNotFoundException : "+e.getMessage());
+		}catch(Exception e) {
+			System.err.println("\nException : "+e.getMessage());
+		}
+		
+		// return questionOptionsFinalMap
+		return questionOptionsFinalMap;
+		
+	}
+
+}

@@ -1,0 +1,30 @@
+package com.quiztaker.main.repo;
+
+import java.sql.Connection;
+
+import com.quiztaker.main.entity.Quiz;
+import com.quiztaker.main.helper.CreateConnection;
+
+
+//table name = tbl_quiz
+public class QuizRepository {
+	// getting connection 
+	private Connection conn = CreateConnection.getConnection();
+
+	// method to save the quiz and return saved quiz
+	public void save(Quiz quizToSave) {
+		// object of Quiz to return
+		Quiz savedQuiz = new Quiz();
+		
+		try {
+			// string sql query
+			String query = "INSERT INTO tbl_quiz(quizuserid,quizobtpoints,quiztotalpoints)VALUES(?,?,?)";
+			
+			// preparing query
+			conn.prepare
+		}
+		
+		
+	}
+
+}

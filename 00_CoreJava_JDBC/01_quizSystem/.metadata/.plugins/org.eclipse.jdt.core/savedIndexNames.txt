@@ -1,0 +1,5 @@
+INDEX VERSION 1.134+D:\Educational\00_Projects\05_coreJavaAndJdbc\01_quizSystem\.metadata\.plugins\org.eclipse.jdt.core
+3854968331.index
+1865797976.index
+856802873.index
+2593528857.index

@@ -1,0 +1,14 @@
+package com.quiztaker.main.serviceImpl;
+
+import com.quiztaker.main.entity.Subject;
+import com.quiztaker.main.serviceI.SubjectServiceI;
+
+public class SubjectServiceImpl implements SubjectServiceI {
+
+	@Override
+	public Subject addSubject(String subToAdd) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

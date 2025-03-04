@@ -1,0 +1,10 @@
+package com.quiztaker.main.controller;
+
+public class SubjectController {
+	// addSubject request
+	public String addSubject(String subNameToAdd){
+		
+		
+		
+	}
+}

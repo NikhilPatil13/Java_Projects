@@ -1,0 +1,15 @@
+package com.quiztaker.main.repo;
+
+import com.quiztaker.main.entity.Quiz;
+
+public class QuizRepository {
+
+	// method to save the quiz and return saved quiz
+	public void save(Quiz quizToSave) {
+		// object of Quiz to return
+		Quiz addedQuiz = new Quiz();
+		
+		
+	}
+
+}

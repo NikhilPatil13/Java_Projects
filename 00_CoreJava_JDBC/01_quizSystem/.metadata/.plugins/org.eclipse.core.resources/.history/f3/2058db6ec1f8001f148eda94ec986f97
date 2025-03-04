@@ -1,0 +1,6 @@
+package com.quiztaker.main.serviceI;
+
+public interface SubjectServiceI {
+	// abstract method to add subject
+	public String addSubject(String subToAdd);
+}

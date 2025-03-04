@@ -1,0 +1,7 @@
+package com.quiztaker.main.serviceImpl;
+
+import com.quiztaker.main.serviceI.SubjectServiceI;
+
+public class SubjectServiceImpl implements SubjectServiceI {
+
+}
