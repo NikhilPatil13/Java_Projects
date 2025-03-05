@@ -1,5 +1,8 @@
 package com.quiztaker.main.serviceI;
 
+import java.util.LinkedHashMap;
+
+import com.quiztaker.main.entity.Quiz;
 import com.quiztaker.main.entity.User;
 
 public interface UserServiceI {
@@ -12,5 +15,8 @@ public interface UserServiceI {
 	
 	// abstract method to get user having provided username and returns User
 	public User getUserByUsername(String username);
+	
+	// abstract method to return all users with their quiz details and prints
+	public void getAllUserDetails();
 	
 }

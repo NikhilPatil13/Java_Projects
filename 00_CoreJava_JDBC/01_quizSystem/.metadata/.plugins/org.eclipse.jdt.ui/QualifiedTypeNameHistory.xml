@@ -52,12 +52,12 @@
     <fullyQualifiedTypeName name="com.quiztaker.main.serviceI.SubjectServiceI"/>
     <fullyQualifiedTypeName name="java.sql.Connection"/>
     <fullyQualifiedTypeName name="com.quiztaker.main.helper.CreateConnection"/>
-    <fullyQualifiedTypeName name="com.quiztaker.main.repo.SubjectRepository"/>
     <fullyQualifiedTypeName name="com.quiztaker.main.serviceImpl.SubjectServiceImpl"/>
     <fullyQualifiedTypeName name="com.quiztaker.main.exception.EntityNotSavedException"/>
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
-    <fullyQualifiedTypeName name="com.quiztaker.main.exception.EntityNotFoundException"/>
     <fullyQualifiedTypeName name="java.util.LinkedHashMap"/>
+    <fullyQualifiedTypeName name="com.quiztaker.main.repo.SubjectRepository"/>
     <fullyQualifiedTypeName name="com.quiztaker.main.entity.Subject"/>
+    <fullyQualifiedTypeName name="com.quiztaker.main.exception.EntityNotFoundException"/>
 </qualifiedTypeNameHistroy>

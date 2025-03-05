@@ -26,8 +26,15 @@ public class QuizController {
 		}
 		catch(Exception e) {
 			System.err.println("\nException : "+e.getMessage()+"\nPlease Try Again...");
-		}
-		
+		}	
+	}
+	
+	// getCountOfQuizesAccToUser request
+	public Integer getCountOfQuizesAccToUser(User user){
+
+		// call to getCountOfTotalQuizesOfUser method of QuizServiceImpl
+		return this.quizServiceImpl.getCountOfTotalQuizesOfUser(user);
+
 	}
 
 }

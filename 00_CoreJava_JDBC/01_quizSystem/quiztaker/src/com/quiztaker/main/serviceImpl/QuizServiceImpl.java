@@ -189,7 +189,7 @@ public class QuizServiceImpl implements QuizServiceI {
 		System.out.println("          Your Quiz Results");
 		System.out.println("-------------------------------------");
 
-		System.out.println("\nSubject: " + subjectForQuiz.getSubName());
+		System.out.println("\nSubject: " + subjectForQuiz.getSubName().toUpperCase());
 		System.out.println("\n   Obtained Score: " + obtainedScore + " / " + outOfScore);
 
 		System.out.println("\n-------------------------------------");
@@ -209,6 +209,16 @@ public class QuizServiceImpl implements QuizServiceI {
 		if (savedQuiz == null) {
 			throw new EntityNotSavedException("Quiz Not Saved.");
 		}
+	}
+
+	// blogic for getCountOfTotalQuizesOfUser
+	public Integer getCountOfTotalQuizesOfUser(User user) {
+		// calling findCountByUserId method of QuizRepository
+		Integer totalQuizByUserId = this.quizRepository.findCountByUserId(user.getUserId());
+
+		// returning
+		return totalQuizByUserId;
+
 	}
 
 }

@@ -1,5 +1,8 @@
 package com.quiztaker.main.controller;
 
+import java.util.LinkedHashMap;
+
+import com.quiztaker.main.entity.Quiz;
 import com.quiztaker.main.entity.User;
 import com.quiztaker.main.exception.CredentialsMismatchedException;
 import com.quiztaker.main.exception.EntityAlredyPresentException;
@@ -64,5 +67,11 @@ public class UserController {
 		}
 		
 		return foundUser;
+	}
+
+	// getAllUsersDetails request
+	public void getAllUsersDetails() {
+		// calling getAllUserDetails method of UserServiceImpl
+		this.userServiceImpl.getAllUserDetails();
 	}
 }

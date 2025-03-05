@@ -1,15 +1,23 @@
 package com.quiztaker.main.serviceImpl;
 
+import java.util.LinkedHashMap;
+import java.util.List;
+
+import com.quiztaker.main.entity.Quiz;
 import com.quiztaker.main.entity.User;
 import com.quiztaker.main.exception.CredentialsMismatchedException;
 import com.quiztaker.main.exception.EntityAlredyPresentException;
 import com.quiztaker.main.exception.EntityNotFoundException;
+import com.quiztaker.main.repo.QuizRepository;
 import com.quiztaker.main.repo.UserRepository;
 import com.quiztaker.main.serviceI.UserServiceI;
 
 public class UserServiceImpl implements UserServiceI {
 	// object for UserRepository
-	UserRepository userRepository = new UserRepository();
+	private UserRepository userRepository = new UserRepository();
+	
+	// object for QuizRepository
+	private QuizRepository quizRepository = new QuizRepository();
 
 	// blogic for signUpUser
 	@Override
@@ -85,6 +93,42 @@ public class UserServiceImpl implements UserServiceI {
 		}
 
 		return foundUser;
+	}
+
+	// blogic for getAllUserDetails 
+	public void getAllUserDetails() {
+		// getting all users list , calling findAll method of UserRepository
+		List<User> allUsers = this.userRepository.findAll();
+		
+		// checking size of allUsers list
+		if(allUsers.size()==0) {
+			// no users found
+			throw new EntityNotFoundException("Users Not Found.");
+		}else {
+			int srNo = 1;
+			// traversing allUsers
+			for(User user:allUsers) {
+				
+				// now getting details of all quizes current user taken
+				Integer totalUserQuizesCount = this.quizRepository.findCountByUserId(user.getUserId());
+				List<Integer> obtAndTotalPoints = this.quizRepository.findSumOfTotalAndObtPoints(user.getUserId());
+				System.out.println(srNo+++"]");
+				System.out.println(" Name           : " + user.getUserFName() + " " + user.getUserLName());
+				System.out.println(" Email ID       : " + user.getUserEmailId());
+				System.out.println(" Contact No     : " + user.getUserContactNo());
+				System.out.println(" Address        : " + user.getUserAddress());
+				System.out.println(" Total Quizzes  : " + totalUserQuizesCount);
+				System.out.println(" Marks Obtained : " + obtAndTotalPoints.get(0) + " / " + obtAndTotalPoints.get(1));
+				
+				System.out.println("\n-----------------------------");
+			}
+		}
+		
+		
+
+		
+		
+		
 	}
 
 }

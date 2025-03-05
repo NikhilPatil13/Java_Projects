@@ -3,6 +3,8 @@ package com.quiztaker.main.repo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.quiztaker.main.entity.User;
 import com.quiztaker.main.helper.CreateConnection;
@@ -129,6 +131,96 @@ public class UserRepository {
 		}
 		
 		return null;
+		
+	}
+	
+	// method to return a user having provided userid
+	public User findById(Integer userId){
+		// taking user to return
+		User foundUser = new User();
+		
+		try {
+			// string sql query
+			String query = "SELECT * FROM tbl_user WHERE userid=?";
+			
+			// preparing query
+			PreparedStatement ps = conn.prepareStatement(query);
+		
+			// setting ps parameters
+			ps.setInt(1, userId);
+			
+			// execute ps
+			ResultSet rs = ps.executeQuery();
+		
+			while(rs.next()) {
+				// setting foundUser parameters
+				foundUser.setUserId(rs.getInt("userid"));
+				foundUser.setUserFName(rs.getString("userfname"));
+				foundUser.setUserLName(rs.getString("userlname"));
+				foundUser.setUserEmailId(rs.getString("useremailid"));
+				foundUser.setUserContactNo(rs.getString("usercontactno"));
+				foundUser.setUserAddress(rs.getString("useraddress"));
+				foundUser.setUserPassword(rs.getString("userpassword"));
+			}
+		}catch(Exception e) {
+			System.err.println("(User) findById : "+e.getMessage());
+		}
+		
+		// checking and returing
+		if(foundUser.getUserId()==null) {
+			return null;
+		}else {
+			return foundUser;
+		}
+		
+		
+	}
+
+	// method to find all users and returns a list
+	public List<User> findAll() {
+		// taking list to return 
+		List<User> allUsers = new ArrayList<>();
+		
+		try {
+			// string sql query
+			String query = "SELECT * FROM tbl_user";
+			
+			// preparing query
+			PreparedStatement ps = conn.prepareStatement(query);
+		
+			// executing ps
+			ResultSet rs = ps.executeQuery();
+		
+			// traversing rs
+			while(rs.next()) {
+				
+				int userid = rs.getInt("userid");
+				
+				// checking userid is null or not
+				if(userid!=0) {
+					// taking an user
+					User user = new User();
+					
+					// setting user parameters 
+					user.setUserId(userid);
+					user.setUserFName(rs.getString("userfname"));
+					user.setUserLName(rs.getString("userlname"));
+					user.setUserEmailId(rs.getString("useremailid"));
+					user.setUserContactNo(rs.getString("usercontactno"));
+					user.setUserAddress(rs.getString("useraddress"));
+					user.setUserPassword(rs.getString("userpassword"));
+					
+					// adding user in allUsers list
+					allUsers.add(user);
+				}
+				
+			}
+		}catch(Exception e) {
+			System.err.println("(User) findAll : "+e.getMessage());
+		}
+		
+		// returing 
+		return allUsers;
 		
 	}
 	
